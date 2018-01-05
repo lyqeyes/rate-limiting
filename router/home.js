@@ -27,9 +27,9 @@ var localResource = function* () {
 
 //代理在线资源, 比如cdn上的脚本.
 var onlineResource = function* () {
-    let {url, time} = this.params;  //url会自动decode
+    let {url, delay} = this.params;  //url会自动decode
 
-    let source = (yield [loadSource(url), sleep(time || 1000)])[0];
+    let source = (yield [loadSource(url), sleep(delay || 1000)])[0];
 
     this.set(source.headers);
 
@@ -37,6 +37,6 @@ var onlineResource = function* () {
 };
 
 module.exports.register = function (router) {
-    router.get('/local/:file/:time', localResource);
-    router.get('/online/:url/:time', onlineResource);
+    router.get('/local/:file/:delay', localResource);
+    router.get('/online/:url/:delay', onlineResource);
 };
